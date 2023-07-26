@@ -2,7 +2,7 @@
   <div class="about">
     <div class="logo">
       <router-link to="/"
-        ><img src="src/assets/images/icons/logoMain.svg" alt="logoImg"
+        ><img src="/src/assets/images/icons/logoMain.svg" alt="logoImg"
       /></router-link>
     </div>
     <div class="info column">
