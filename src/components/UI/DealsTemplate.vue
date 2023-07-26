@@ -19,7 +19,7 @@
       </button>
     </div>
     <div class="deals__main">
-      <Sorting v-if="!notFullPage && !isStore" />
+      <Sorting v-if="!notFullPage && !isStore && !isMobile" />
       <div class="display-container">
         <Grid v-if="view === 'square'" :games="games" :isStore="isStore" />
         <Flex v-if="view === 'line'" :games="games" :isStore="isStore" />
