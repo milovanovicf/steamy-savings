@@ -45,19 +45,73 @@ export async function getData(params) {
 }
 
 export const banners = [
-  { id: 1, url: '/src/assets/images/banner/banner1.png' },
-  { id: 2, url: '/src/assets/images/banner/banner2.png' },
-  { id: 3, url: '/src/assets/images/banner/banner3.png' },
-  { id: 4, url: '/src/assets/images/banner/banner4.png' },
-  { id: 5, url: '/src/assets/images/banner/banner5.png' },
-  { id: 6, url: '/src/assets/images/banner/banner6.png' },
+  {
+    id: 1,
+    url: new URL(`/src/assets/images/banner/banner1.png`, import.meta.url),
+  },
+  {
+    id: 2,
+    url: new URL(`/src/assets/images/banner/banner2.png`, import.meta.url),
+  },
+  {
+    id: 3,
+    url: new URL(`/src/assets/images/banner/banner3.png`, import.meta.url),
+  },
+  {
+    id: 4,
+    url: new URL(`/src/assets/images/banner/banner4.png`, import.meta.url),
+  },
+  {
+    id: 5,
+    url: new URL(`/src/assets/images/banner/banner5.png`, import.meta.url),
+  },
+  {
+    id: 6,
+    url: new URL(`/src/assets/images/banner/banner6.png`, import.meta.url),
+  },
 ];
 
 export const bannersMobile = [
-  { id: 1, url: '/src/assets/images/banner/banner1mobile.jpg' },
-  { id: 2, url: '/src/assets/images/banner/banner2mobile.jpg' },
-  { id: 3, url: '/src/assets/images/banner/banner3mobile.jpg' },
-  { id: 4, url: '/src/assets/images/banner/banner4mobile.jpg' },
-  { id: 5, url: '/src/assets/images/banner/banner5mobile.jpg' },
-  { id: 6, url: '/src/assets/images/banner/banner6mobile.jpg' },
+  {
+    id: 1,
+    url: new URL(
+      `/src/assets/images/banner/banner1mobile.jpg`,
+      import.meta.url
+    ),
+  },
+  {
+    id: 2,
+    url: new URL(
+      `/src/assets/images/banner/banner2mobile.jpg`,
+      import.meta.url
+    ),
+  },
+  {
+    id: 3,
+    url: new URL(
+      `/src/assets/images/banner/banner3mobile.jpg`,
+      import.meta.url
+    ),
+  },
+  {
+    id: 4,
+    url: new URL(
+      `/src/assets/images/banner/banner4mobile.jpg`,
+      import.meta.url
+    ),
+  },
+  {
+    id: 5,
+    url: new URL(
+      `/src/assets/images/banner/banner5mobile.jpg`,
+      import.meta.url
+    ),
+  },
+  {
+    id: 6,
+    url: new URL(
+      `/src/assets/images/banner/banner6mobile.jpg`,
+      import.meta.url
+    ),
+  },
 ];

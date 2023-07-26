@@ -2,11 +2,7 @@
   <nav class="nav">
     <div class="logo-search">
       <router-link to="/" class="logo" :class="{ 'logo-mobile': isMobile }"
-        ><img
-          :src="`src/assets/images/icons/${
-            !isMobile ? 'logoMain' : 'logoImg'
-          }.svg`"
-          alt="imglogo"
+        ><img :src="logoSrc" alt="imglogo"
       /></router-link>
       <SearchBar />
     </div>
@@ -44,11 +40,17 @@ export default {
   data() {
     return {
       menuOpened: false,
+      isMobile: window.innerWidth < 900,
     };
   },
   computed: {
-    isMobile() {
-      return window.innerWidth < 900;
+    logoSrc() {
+      return new URL(
+        `/src/assets/images/icons/${
+          !this.isMobile ? 'logoMain' : 'logoImg'
+        }.svg`,
+        import.meta.url
+      );
     },
   },
 };
