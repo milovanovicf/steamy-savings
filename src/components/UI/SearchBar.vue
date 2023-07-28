@@ -9,6 +9,7 @@
       :class="{ mobile: isMobile }"
       @blur="clearSearch"
       @keyup.enter="displayQuery"
+      ref="searchInput"
     />
     <ul class="search__results">
       <li v-for="result in searchResults">
@@ -52,6 +53,8 @@ export default {
       setTimeout(() => {
         this.searchResults = [];
         this.moreThanSix = false;
+        this.isMobile = !this.isMobile;
+        this.$emit('searchOpened');
       }, 350);
     },
     async searchQuery(value) {
@@ -73,10 +76,17 @@ export default {
       }
     },
     displayQuery() {
-      if (!this.search) {
-        this.isMobile = !this.isMobile;
-        return;
+      this.$emit('searchOpened');
+      this.isMobile = !this.isMobile;
+
+      if (!this.isMobile) {
+        this.$nextTick(() => {
+          this.$refs.searchInput.focus();
+        });
       }
+
+      if (!this.search) return;
+
       this.$router.replace({
         name: 'searchResult',
         params: {

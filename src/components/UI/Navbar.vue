@@ -4,7 +4,7 @@
       <router-link to="/" class="logo" :class="{ 'logo-mobile': isMobile }"
         ><img :src="logoSrc" alt="imglogo"
       /></router-link>
-      <SearchBar />
+      <SearchBar @search-opened="openedSearch = !openedSearch" />
     </div>
     <div class="log-in">
       <ul class="log-in-list">
@@ -13,7 +13,7 @@
         <li class="log-in-list__item"><a href="#">Log in/Sign up</a></li>
       </ul>
     </div>
-    <div class="mobile-menu">
+    <div v-if="!openedSearch" class="mobile-menu">
       <div
         class="mobile-menu__btn"
         :class="{ 'open-button': menuOpened }"
@@ -37,9 +37,11 @@ import SearchBar from './SearchBar.vue';
 
 export default {
   components: { SearchBar },
+  emits: ['searchOpened'],
   data() {
     return {
       menuOpened: false,
+      openedSearch: false,
       isMobile: window.innerWidth < 900,
     };
   },
@@ -144,9 +146,9 @@ export default {
       opacity: 0;
     }
     &-list {
-      position: absolute;
+      position: fixed;
       top: 0;
-      right: 0;
+      right: -100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -156,7 +158,6 @@ export default {
       font-size: 2.5rem;
       z-index: 98;
       background-color: #9aa4bf;
-      transform: translateX(100%);
       transition: all 200ms ease-in-out;
 
       li:not(last-child) {
@@ -170,7 +171,7 @@ export default {
   }
 
   .open {
-    transform: translateX(0);
+    right: 0;
   }
 }
 
