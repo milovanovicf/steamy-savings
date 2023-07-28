@@ -2,11 +2,21 @@
   <div class="sorting">
     <h3>Deals by</h3>
     <ul class="sort-options">
-      <li class="sort-options__option">Title</li>
-      <li class="sort-options__option">Savings</li>
-      <li class="sort-options__option">Price</li>
-      <li class="sort-options__option">Release</li>
-      <li class="sort-options__option">Recent</li>
+      <li class="sort-options__option">
+        <router-link to="/deals-by-title">Title</router-link>
+      </li>
+      <li class="sort-options__option">
+        <router-link to="/biggest-saving">Savings</router-link>
+      </li>
+      <li class="sort-options__option">
+        <router-link to="/deals-by-title">Price</router-link>
+      </li>
+      <li class="sort-options__option">
+        <router-link to="/latest-releases">Release</router-link>
+      </li>
+      <li class="sort-options__option">
+        <router-link to="/deals-by-title">Recent</router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -35,9 +45,14 @@ export default {};
       padding-bottom: 0.3rem;
       border-bottom: 1px solid #9aa4bf;
 
-      &:hover {
-        cursor: pointer;
-        color: #9aa4bf;
+      a {
+        text-decoration: none;
+        color: #fff;
+
+        &:hover {
+          cursor: pointer;
+          color: #9aa4bf;
+        }
       }
     }
   }

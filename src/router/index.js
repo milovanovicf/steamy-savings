@@ -4,6 +4,7 @@ import LatestDealsPage from '../components/pages/LatestDealsPage.vue';
 import LatestReleasesPage from '../components/pages/LatestReleasesPage.vue';
 import BiggestSavingPage from '../components/pages/BiggestSavingPage.vue';
 import DealsByStorePage from '../components/pages/DealsByStorePage.vue';
+import DealsByTitle from '../components/pages/DealsByTitle.vue';
 import StoresPage from '../components/pages/StoresPage.vue';
 import SearchResultPage from '../components/pages/SearchResultPage.vue';
 import AboutPage from '../components/pages/AboutPage.vue';
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/biggest-saving',
       name: 'biggest-saving',
       component: BiggestSavingPage,
+    },
+    {
+      path: '/deals-by-title',
+      name: 'deals-by-title',
+      component: DealsByTitle,
     },
     {
       path: '/stores/:storeId',
