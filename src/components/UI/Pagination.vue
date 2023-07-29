@@ -1,19 +1,21 @@
 <template>
   <div class="paggination-buttons">
-    <button
-      class="page-btn start"
-      :disabled="currentPage === 1"
-      @click="gotoPage(1)"
-    >
-      start
-    </button>
-    <button
-      class="page-btn prev"
-      :disabled="currentPage === 1"
-      @click="gotoPage(currentPage - 1)"
-    >
-      prev
-    </button>
+    <div class="controls-left">
+      <button
+        class="page-btn start"
+        :disabled="currentPage === 1"
+        @click="gotoPage(1)"
+      >
+        start
+      </button>
+      <button
+        class="page-btn prev"
+        :disabled="currentPage === 1"
+        @click="gotoPage(currentPage - 1)"
+      >
+        prev
+      </button>
+    </div>
     <button
       :class="{ active: page == currentPage }"
       v-for="page in pageRange"
@@ -22,20 +24,22 @@
     >
       {{ page }}
     </button>
-    <button
-      class="page-btn next"
-      :disabled="currentPage == totalPages"
-      @click="gotoPage(currentPage + 1)"
-    >
-      next
-    </button>
-    <button
-      class="page-btn end"
-      :disabled="currentPage == totalPages"
-      @click="gotoPage(totalPages)"
-    >
-      end
-    </button>
+    <div class="controls-right">
+      <button
+        class="page-btn next"
+        :disabled="currentPage == totalPages"
+        @click="gotoPage(currentPage + 1)"
+      >
+        next
+      </button>
+      <button
+        class="page-btn end"
+        :disabled="currentPage == totalPages"
+        @click="gotoPage(totalPages)"
+      >
+        end
+      </button>
+    </div>
   </div>
 </template>
 
@@ -124,6 +128,25 @@ export default {
     &:nth-child(-n + 2),
     &:nth-last-child(-n + 2) {
       font-weight: 800;
+    }
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .paggination-buttons {
+    position: relative;
+
+    .controls-left,
+    .controls-right {
+      position: absolute;
+      bottom: -100%;
+    }
+
+    .controls-left {
+      left: 10%;
+    }
+    .controls-right {
+      right: 10%;
     }
   }
 }

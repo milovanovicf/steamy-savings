@@ -74,7 +74,7 @@ export default {
   grid-gap: 1rem;
 
   &__element {
-    height: 15rem;
+    height: 16rem;
     background-color: teal;
     display: flex;
     flex-direction: column;

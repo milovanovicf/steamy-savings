@@ -43,6 +43,7 @@ export default {
       isMobile: window.innerWidth < 650,
     };
   },
+  emits: ['search-opened'],
   watch: {
     search: debounce(function (value) {
       this.searchQuery(value);
@@ -177,8 +178,8 @@ export default {
 .icon-mobile {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 0;
+  transform: translate(25%, -50%);
 }
 
 @media only screen and (max-width: 750px) {

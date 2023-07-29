@@ -37,6 +37,7 @@ export default {
       bannersMobile: bannersMobile,
       currentBanner: 1,
       screenWidth: window.innerWidth,
+      isMobile: window.innerWidth < 900,
     };
   },
   methods: {
@@ -60,11 +61,6 @@ export default {
   mounted() {
     this.automaticSlideChange();
   },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 900;
-    },
-  },
 };
 </script>
 
@@ -77,7 +73,6 @@ export default {
   .banner-container {
     position: relative;
     height: 25rem;
-    margin: 0 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -145,7 +140,7 @@ export default {
 @media only screen and (max-width: 1200px) {
   .latest-deal {
     .banner-container {
-      margin: 0 2rem;
+      height: 15rem;
     }
   }
 }
@@ -173,6 +168,13 @@ export default {
       }
     }
 
+    .controls {
+      position: absolute;
+      cursor: pointer;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
     .left {
       top: 25%;
     }
@@ -186,9 +188,9 @@ export default {
 @media only screen and (max-width: 600px) {
   .latest-deal {
     .banner-container {
-      height: 15rem;
+      height: 13rem;
 
-      margin: 0 1rem;
+      margin: 0;
     }
   }
 }

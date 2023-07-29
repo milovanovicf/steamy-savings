@@ -32,6 +32,8 @@ export default {};
   margin-right: 1rem;
   width: 10rem;
   height: max-content;
+  position: sticky;
+  top: 5%;
 
   h3 {
     font-size: 1.5rem;

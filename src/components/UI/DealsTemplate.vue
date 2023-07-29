@@ -1,6 +1,14 @@
 <template>
-  <div class="deals">
-    <h2>{{ title }}</h2>
+  <div class="deals" :class="{ whenFullPage: !notFullPage }">
+    <div class="title">
+      <h2>{{ title }}</h2>
+      <img
+        v-if="isMobile && notFullPage"
+        class="toggle-arrow"
+        @click="dealsOpened = !dealsOpened"
+        :src="toggleOpenBtn"
+      />
+    </div>
     <div v-if="!notFullPage && !isStore && !isMobile" class="view">
       View
       <button @click="changeView('square')">
@@ -20,7 +28,7 @@
     </div>
     <div class="deals__main">
       <Sorting v-if="!notFullPage && !isStore && !isMobile" />
-      <div class="display-container">
+      <div v-if="dealsOpened" class="display-container">
         <Grid v-if="view === 'square'" :games="games" :isStore="isStore" />
         <Flex v-if="view === 'line'" :games="games" :isStore="isStore" />
       </div>
@@ -43,6 +51,7 @@ export default {
     return {
       view: 'square',
       isMobile: window.innerWidth < 900,
+      dealsOpened: true,
     };
   },
   methods: {
@@ -50,24 +59,50 @@ export default {
       this.view = view;
     },
   },
+  computed: {
+    toggleOpenBtn() {
+      return new URL(
+        `/src/assets/images/icons/${
+          !this.dealsOpened
+            ? 'arrow-down-338-svgrepo-com'
+            : 'arrow-up-338-svgrepo-com'
+        }.svg`,
+        import.meta.url
+      );
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .deals {
-  margin: 1rem 12rem;
+  width: 70%;
+  margin: 8rem auto;
   position: relative;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      filter: invert(100%) sepia(0%) saturate(31%) hue-rotate(156deg)
+        brightness(107%) contrast(108%);
+    }
+  }
 
   h2 {
     text-transform: uppercase;
-    font-size: 1.8rem;
-    margin-bottom: 5rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
   }
 
   .view {
     position: absolute;
     right: 0;
-    top: 4rem;
+    top: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -101,6 +136,8 @@ export default {
 
   &__main {
     display: flex;
+    justify-content: start;
+    position: relative;
   }
 
   .display-container {
@@ -124,21 +161,19 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1400px) {
+.whenFullPage {
+  width: 80%;
+}
+
+@media only screen and (max-width: 1600px) {
   .deals {
-    margin: 10rem;
+    width: 80%;
   }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 700px) {
   .deals {
-    margin: 10rem 5rem;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  .deals {
-    margin: 10rem 2rem;
+    width: 90%;
   }
 }
 </style>

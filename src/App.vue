@@ -148,10 +148,25 @@ table {
 
 body {
   font-family: 'SupermolotNeue', sans-serif;
-  background-color: #292940;
-  background-repeat: no-repeat;
-  background-size: cover;
   color: #fff;
   overflow-x: hidden;
+  --s: 200px; /* control the size */
+  --c1: #273047;
+  --c2: #161a26;
+  --c3: #292940;
+
+  background: repeating-conic-gradient(
+        from 30deg,
+        #0000 0 120deg,
+        var(--c3) 0 180deg
+      )
+      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+    repeating-conic-gradient(
+      from 30deg,
+      var(--c1) 0 60deg,
+      var(--c2) 0 120deg,
+      var(--c3) 0 180deg
+    );
+  background-size: var(--s) calc(var(--s) * 0.577);
 }
 </style>

@@ -209,8 +209,8 @@ export default {};
 
 @media only screen and (max-width: 700px) {
   .about {
-    margin: 0 2rem;
-    padding: 2rem 1rem;
+    margin: 0 1rem;
+    padding: 2rem 0;
   }
 }
 </style>
