@@ -1,8 +1,8 @@
 <template>
   <nav class="nav">
     <div class="logo-container">
-      <router-link to="/" class="logo" :class="{ 'logo-mobile': openedSearch }"
-        ><img :src="logoSrc" alt="imglogo"
+      <router-link v-if="!openedSearch" to="/" class="logo"
+        ><img src="/src/assets/images/icons/logoMain.svg" alt="imglogo"
       /></router-link>
       <SearchBar @search-opened="openedSearch = !openedSearch" />
     </div>
@@ -16,19 +16,8 @@ export default {
   components: { SearchBar },
   data() {
     return {
-      menuOpened: false,
       openedSearch: false,
     };
-  },
-  computed: {
-    logoSrc() {
-      return new URL(
-        `/src/assets/images/icons/${
-          !this.openedSearch ? 'logoMain' : 'logoImg'
-        }.svg`,
-        import.meta.url
-      );
-    },
   },
 };
 </script>
@@ -58,10 +47,6 @@ export default {
         width: 100%;
         height: 100%;
       }
-    }
-    .logo-mobile {
-      width: 3rem;
-      height: 3.5rem;
     }
   }
 }

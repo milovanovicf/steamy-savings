@@ -1,13 +1,13 @@
 <template>
   <div class="search">
     <input
-      v-if="!isMobile"
+      v-if="shouldShowSearchInput"
       v-model="search"
       type="text"
       placeholder="Search"
       class="search__input"
-      :class="{ mobile: isMobile }"
       @blur="clearSearch"
+      @focus="searchQuery"
       @keyup.enter="displayQuery"
       ref="searchInput"
     />
@@ -23,10 +23,9 @@
   </div>
   <img
     class="search-icon"
-    :class="{ 'icon-mobile': isMobile }"
     src="../../assets/images/icons/search-svgrepo-com.svg"
     alt="searchBtn"
-    @click="displayQuery"
+    @click="toggleSearchInput"
   />
 </template>
 
@@ -40,32 +39,64 @@ export default {
       search: '',
       searchResults: [],
       moreThanSix: false,
-      isMobile: window.innerWidth < 650,
+      isSearchInputOpen: false,
+      isLargeScreen: window.innerWidth >= 768,
     };
   },
-  emits: ['search-opened'],
+  computed: {
+    shouldShowSearchInput() {
+      return this.isLargeScreen || this.isSearchInputOpen;
+    },
+  },
+  emits: ['searchOpened'],
   watch: {
     search: debounce(function (value) {
       this.searchQuery(value);
     }, 500),
   },
   methods: {
+    toggleSearchInput() {
+      if (!this.isLargeScreen) {
+        this.$emit('searchOpened');
+        if (this.isSearchInputOpen) {
+          if (!this.search) return;
+          this.displayQuery();
+          this.$emit('searchOpened');
+        }
+        this.isSearchInputOpen = true;
+        this.$nextTick(() => {
+          this.$refs.searchInput.focus();
+        });
+      } else {
+        if (!this.search) return;
+
+        this.displayQuery();
+      }
+    },
+    updateScreenSize() {
+      this.isLargeScreen = window.innerWidth >= 768; // You can adjust this breakpoint
+    },
     clearSearch() {
       setTimeout(() => {
         this.searchResults = [];
         this.moreThanSix = false;
-        this.isMobile = !this.isMobile;
-        this.$emit('searchOpened');
+        if (!this.isLargeScreen) {
+          this.$emit('searchOpened');
+          this.isSearchInputOpen = false;
+        }
       }, 350);
     },
     async searchQuery(value) {
-      if (!value) {
+      const searchValue = value.target ? value.target.value : value;
+      if (!searchValue) {
         return;
       }
-      if (value.length >= 3) {
+      if (searchValue.length >= 3) {
         const response = await getData(this.search);
         this.searchResults = response.filter((result) => {
-          return result.external.toLowerCase().includes(value.toLowerCase());
+          return result.external
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
         });
         if (this.searchResults.length > 6) {
           this.searchResults = this.searchResults.slice(0, 6);
@@ -77,15 +108,6 @@ export default {
       }
     },
     displayQuery() {
-      this.$emit('searchOpened');
-      this.isMobile = !this.isMobile;
-
-      if (!this.isMobile) {
-        this.$nextTick(() => {
-          this.$refs.searchInput.focus();
-        });
-      }
-
       if (!this.search) return;
 
       this.$router.replace({
@@ -94,7 +116,15 @@ export default {
           param: this.search,
         },
       });
+      console.log('goes here');
+      this.$emit('searchOpened');
     },
+  },
+  mounted() {
+    window.addEventListener('resize', this.updateScreenSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateScreenSize);
   },
 };
 </script>
