@@ -30,7 +30,7 @@ const router = createRouter({
       component: StoresPage,
     },
     {
-      path: '/search-results/:param',
+      path: '/searchResults/:param',
       name: 'searchResult',
       component: SearchResultPage,
     },
