@@ -6,16 +6,14 @@
     :isStore="true"
     linkUrl="stores"
   />
-  <EmptyDealsTemplate v-else />
 </template>
 
 <script>
 import { fetchStores } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import EmptyDealsTemplate from '../UI/EmptyDealsTemplate.vue';
 
 export default {
-  components: { DealsTemplate, EmptyDealsTemplate },
+  components: { DealsTemplate },
   data() {
     return {
       allStores: [],

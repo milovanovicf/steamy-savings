@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Homepage from '../components/pages/Homepage.vue';
-import LatestDealsPage from '../components/pages/LatestDealsPage.vue';
-import LatestReleasesPage from '../components/pages/LatestReleasesPage.vue';
-import BiggestSavingPage from '../components/pages/BiggestSavingPage.vue';
 import DealsByStorePage from '../components/pages/DealsByStorePage.vue';
-import DealsByTitle from '../components/pages/DealsByTitle.vue';
 import StoresPage from '../components/pages/StoresPage.vue';
 import SearchResultPage from '../components/pages/SearchResultPage.vue';
 import AboutPage from '../components/pages/AboutPage.vue';
+import FullPage from '../components/pages/FullPage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,24 +15,9 @@ const router = createRouter({
       component: Homepage,
     },
     {
-      path: '/latest-deals',
-      name: 'latest-deals',
-      component: LatestDealsPage,
-    },
-    {
-      path: '/latest-releases',
-      name: 'latest-releases',
-      component: LatestReleasesPage,
-    },
-    {
-      path: '/biggest-saving',
-      name: 'biggest-saving',
-      component: BiggestSavingPage,
-    },
-    {
-      path: '/deals-by-title',
-      name: 'deals-by-title',
-      component: DealsByTitle,
+      path: '/deals/:dealType',
+      name: 'FullPage',
+      component: FullPage,
     },
     {
       path: '/stores/:storeId',
@@ -48,7 +30,7 @@ const router = createRouter({
       component: StoresPage,
     },
     {
-      path: '/search-results/:param',
+      path: '/searchResults/:param',
       name: 'searchResult',
       component: SearchResultPage,
     },

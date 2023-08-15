@@ -2,7 +2,7 @@
   <div class="latest-deal">
     <div class="banner-container">
       <router-link
-        to="/latest-deals"
+        to="/deals/Recent"
         class="banner"
         v-for="banner in !isMobile ? banners : bannersMobile"
         :key="banner.id"
@@ -22,7 +22,7 @@
       @click="slideChange"
     />
     <div class="btn">
-      <router-link to="/latest-deals">View all latest deals</router-link>
+      <router-link to="/deals/Recent">View all latest deals</router-link>
     </div>
   </div>
 </template>

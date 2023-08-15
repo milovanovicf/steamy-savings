@@ -1,7 +1,7 @@
 <template>
   <DealsTemplate
     :title="'Browse deals by stores'"
-    :games="allStores"
+    :data="allStores"
     :isStore="true"
     linkUrl="stores"
     :notFullPage="true"

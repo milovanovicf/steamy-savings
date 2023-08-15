@@ -5,8 +5,11 @@
     </h2>
     <HomepageBanner />
     <BiggestSaving />
+    <LinkButton dealType="Savings" />
     <LatestReleses />
+    <LinkButton dealType="Release" />
     <Stores />
+    <LinkButton dealType="Recent" />
   </div>
 </template>
 
@@ -15,9 +18,16 @@ import HomepageBanner from '../UI/HomepageBanner.vue';
 import BiggestSaving from '../BiggestSaving.vue';
 import Stores from '../Stores.vue';
 import LatestReleses from '../LatestReleses.vue';
+import LinkButton from '../UI/LinkButton.vue';
 
 export default {
-  components: { BiggestSaving, Stores, HomepageBanner, LatestReleses },
+  components: {
+    BiggestSaving,
+    Stores,
+    HomepageBanner,
+    LatestReleses,
+    LinkButton,
+  },
 };
 </script>
 

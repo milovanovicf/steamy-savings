@@ -3,27 +3,23 @@
     <h3>Deals by</h3>
     <ul class="sort-options">
       <li class="sort-options__option">
-        <router-link to="/deals-by-title">Title</router-link>
+        <router-link to="/deals/Title">Title</router-link>
       </li>
       <li class="sort-options__option">
-        <router-link to="/biggest-saving">Savings</router-link>
+        <router-link to="/deals/Saving">Savings</router-link>
       </li>
       <li class="sort-options__option">
-        <router-link to="/deals-by-title">Price</router-link>
+        <router-link to="/deals/Price">Price</router-link>
       </li>
       <li class="sort-options__option">
-        <router-link to="/latest-releases">Release</router-link>
+        <router-link to="/deals/Release">Release</router-link>
       </li>
       <li class="sort-options__option">
-        <router-link to="/deals-by-title">Recent</router-link>
+        <router-link to="/deals/Recent">Recent</router-link>
       </li>
     </ul>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style lang="scss" scoped>
 .sorting {

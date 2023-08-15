@@ -38,6 +38,57 @@ export async function findStore(id) {
     .then((data) => data.data.filter((store) => store.storeID === id));
 }
 
+async function checkImageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve(true);
+    };
+    img.onerror = () => {
+      resolve(false);
+    };
+    img.src = url;
+  });
+}
+
+async function checkImageUrl(id) {
+  const imagePaths = [
+    `https://steamcdn-a.akamaihd.net/steam/apps/${id}/capsule_616x353.jpg`,
+    `https://steamcdn-a.akamaihd.net/steam/apps/${id}/thumbnail.jpg`,
+    `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`,
+  ];
+
+  for (const imagePath of imagePaths) {
+    const imageExists = await checkImageExists(imagePath);
+    if (imageExists) {
+      return imagePath;
+    }
+  }
+
+  return null;
+}
+
+function formatTitle(title) {
+  if (title && title.length > 32) {
+    return title.slice(0, 32) + '...';
+  } else {
+    return title;
+  }
+}
+
+export async function formatData(data) {
+  for (const game of data) {
+    const imageUrl = await checkImageUrl(game.steamAppID);
+    const formatedTitle = formatTitle(game.title || game.external);
+    game.formatedTitle = formatedTitle;
+    if (game.steamAppID && imageUrl) {
+      game.imageSrc = imageUrl;
+    } else {
+      game.imageSrc = game.thumb;
+    }
+  }
+}
+
 export async function getData(params) {
   return await axios
     .get(`https://www.cheapshark.com/api/1.0/games?title=${params}`)
