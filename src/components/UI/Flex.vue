@@ -8,17 +8,11 @@
       v-for="game in games"
       class="list__element"
       target="_blank"
+      :title="game.title || game.external"
     >
       <div class="game-info">
         <div class="img-container">
-          <img
-            :src="
-              game.steamAppID
-                ? `https://steamcdn-a.akamaihd.net/steam/apps/${game.steamAppID}/header.jpg`
-                : game.thumb
-            "
-            alt="thumbnail"
-          />
+          <img :src="game.imageSrc" alt="thumbnail" />
         </div>
         <p class="title">{{ game.title || game.external }}</p>
       </div>
@@ -44,11 +38,6 @@
           </div>
           <p v-else>{{ game.normalPrice || game.cheapest }}$</p>
         </div>
-        <img
-          class="heart"
-          src="../../assets/images/icons/heart-fill-svgrepo-com.svg"
-          alt=""
-        />
       </div>
     </a>
   </div>

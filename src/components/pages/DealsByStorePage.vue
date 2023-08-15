@@ -31,6 +31,7 @@ export default {
       this.store = await findStore(this.$route.fullPath.slice(8)).then(
         (data) => data[0].storeName
       );
+      formatData(this.dealsByStore);
     },
     fetchPage(page) {
       this.currentPage = page;

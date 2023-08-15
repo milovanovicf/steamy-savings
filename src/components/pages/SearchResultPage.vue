@@ -22,11 +22,13 @@ export default {
 
   async mounted() {
     this.searchResult = await getData(this.$route.params.param);
+    formatData(this.searchResult);
   },
   watch: {
     '$route.params': {
       async handler(newParams, oldParams) {
         this.searchResult = await getData(newParams.param);
+        formatData(this.searchResult);
       },
     },
   },

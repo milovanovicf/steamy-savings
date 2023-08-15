@@ -25,6 +25,7 @@ export default {
       this.allDeals = await fetchGames('Release', 1, '32').then((data) =>
         data.slice(0, 8)
       );
+      formatData(this.allDeals);
     },
   },
   created() {

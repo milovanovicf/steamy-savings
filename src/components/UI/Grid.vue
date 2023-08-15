@@ -9,6 +9,7 @@
       "
       target="_blank"
       class="grid__element"
+      :title="game.title || game.external"
     >
       <div class="img-container">
         <div v-if="game.title" class="store-logo-container">
@@ -23,18 +24,11 @@
         <p v-if="game.savings > 0" class="discount">
           {{ Math.round(game.savings) }}%
         </p>
-        <img
-          :src="
-            game.steamAppID
-              ? `https://steamcdn-a.akamaihd.net/steam/apps/${game.steamAppID}/header.jpg`
-              : game.thumb
-          "
-          alt="thumbnail"
-        />
+        <img :src="game.imageSrc" alt="thumbnail" />
       </div>
       <div class="element-details">
         <div class="name">
-          {{ isStore ? game.storeName : game.title || game.external }}
+          {{ isStore ? game.storeName : game.formatedTitle }}
         </div>
         <div v-if="!isStore" class="price">
           <div v-if="game.savings > 0">
