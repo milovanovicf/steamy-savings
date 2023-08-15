@@ -2,20 +2,18 @@
   <DealsTemplate
     v-if="fetchedData"
     :title="'Biggest Saving'"
-    :games="allDeals"
-    linkUrl="biggest-saving"
+    :data="allDeals"
+    linkUrl="biggestSaving"
     :notFullPage="true"
   />
-  <EmptyDealsTemplate v-else />
 </template>
 
 <script>
 import DealsTemplate from './UI/DealsTemplate.vue';
-import EmptyDealsTemplate from './UI/EmptyDealsTemplate.vue';
-import { fetchGames } from '../Data';
+import { fetchGames, formatData } from '../Data';
 
 export default {
-  components: { DealsTemplate, EmptyDealsTemplate },
+  components: { DealsTemplate },
   data() {
     return {
       allDeals: {},

@@ -1,19 +1,17 @@
 <template>
   <template v-if="fetchedData">
-    <DealsTemplate :title="`Deals from ${store}`" :games="dealsByStore" />
+    <DealsTemplate :title="`Deals from ${store}`" :data="dealsByStore" />
     <Pagination @pageChange="fetchPage" />
   </template>
-  <EmptyDealsTemplate v-else />
 </template>
 
 <script>
-import { fetchByStore, findStore } from '../../Data';
+import { fetchByStore, findStore, formatData } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import EmptyDealsTemplate from '../UI/EmptyDealsTemplate.vue';
 import Pagination from '../UI/Pagination.vue';
 
 export default {
-  components: { EmptyDealsTemplate, Pagination, DealsTemplate },
+  components: { Pagination, DealsTemplate },
   data() {
     return {
       dealsByStore: {},

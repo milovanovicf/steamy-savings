@@ -2,20 +2,18 @@
   <DealsTemplate
     v-if="fetchedData"
     :title="'Latest Releases'"
-    :games="allDeals"
-    linkUrl="latest-releases"
+    :data="allDeals"
+    linkUrl="latestReleases"
     :notFullPage="true"
   />
-  <EmptyDealsTemplate v-else />
 </template>
 
 <script>
 import DealsTemplate from './UI/DealsTemplate.vue';
-import EmptyDealsTemplate from './UI/EmptyDealsTemplate.vue';
-import { fetchGames } from '../Data';
+import { fetchGames, formatData } from '../Data';
 
 export default {
-  components: { DealsTemplate, EmptyDealsTemplate },
+  components: { DealsTemplate },
   data() {
     return {
       allDeals: {},

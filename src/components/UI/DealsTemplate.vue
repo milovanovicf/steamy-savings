@@ -29,12 +29,9 @@
     <div class="deals__main">
       <Sorting v-if="!notFullPage && !isStore && !isMobile" />
       <div v-if="dealsOpened" class="display-container">
-        <Grid v-if="view === 'square'" :games="games" :isStore="isStore" />
-        <Flex v-if="view === 'line'" :games="games" :isStore="isStore" />
+        <Grid v-if="view === 'square'" :games="data" :isStore="isStore" />
+        <Flex v-if="view === 'line'" :games="data" :isStore="isStore" />
       </div>
-    </div>
-    <div v-if="notFullPage" class="btn">
-      <router-link :to="`/${linkUrl}`">View more</router-link>
     </div>
   </div>
 </template>
@@ -46,7 +43,7 @@ import Sorting from './Sorting.vue';
 
 export default {
   components: { Grid, Flex, Sorting },
-  props: ['title', 'games', 'isStore', 'linkUrl', 'notFullPage'],
+  props: ['title', 'data', 'isStore', 'linkUrl', 'notFullPage'],
   data() {
     return {
       view: 'square',
@@ -77,7 +74,7 @@ export default {
 <style scoped lang="scss">
 .deals {
   width: 70%;
-  margin: 8rem auto;
+  margin: 5rem auto;
   position: relative;
 
   .title {
@@ -143,22 +140,6 @@ export default {
   .display-container {
     width: 100%;
   }
-  .btn {
-    text-align: center;
-    margin: 5rem 0;
-
-    a {
-      text-decoration: none;
-      color: #fff;
-      border: 1px solid #9aa4bf;
-      padding: 1rem 2rem;
-      transition: all 200ms ease-in-out;
-
-      &:hover {
-        background-color: #9aa4bf;
-      }
-    }
-  }
 }
 
 .whenFullPage {
@@ -167,7 +148,11 @@ export default {
 
 @media only screen and (max-width: 1600px) {
   .deals {
-    width: 80%;
+    width: 75%;
+  }
+
+  .whenFullPage {
+    width: 85%;
   }
 }
 

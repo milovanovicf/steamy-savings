@@ -1,20 +1,18 @@
 <template>
-  <template v-if="searchResult.length">
+  <template v-if="searchResult">
     <DealsTemplate
       :title="'Search resuts for ' + `&quot;${this.$route.params.param}&quot;`"
-      :games="searchResult"
+      :data="searchResult"
     />
   </template>
-  <EmptyDealsTemplate v-else />
 </template>
 
 <script>
-import { getData } from '../../Data';
+import { getData, formatData } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import EmptyDealsTemplate from '../UI/EmptyDealsTemplate.vue';
 
 export default {
-  components: { DealsTemplate, EmptyDealsTemplate },
+  components: { DealsTemplate },
 
   data() {
     return {
