@@ -12,7 +12,7 @@
     >
       <div class="game-info">
         <div class="img-container">
-          <img :src="game.imageSrc" alt="thumbnail" />
+          <img v-lazy="game.imageSrc" alt="thumbnail" />
         </div>
         <p class="title">{{ game.title || game.external }}</p>
       </div>
