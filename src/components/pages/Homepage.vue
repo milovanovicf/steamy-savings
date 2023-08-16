@@ -5,11 +5,11 @@
     </h2>
     <HomepageBanner />
     <BiggestSaving />
-    <LinkButton dealType="Savings" />
+    <LinkButton linkUrl="deals/Savings" />
     <LatestReleses />
-    <LinkButton dealType="Release" />
+    <LinkButton linkUrl="deals/Release" />
     <Stores />
-    <LinkButton dealType="Recent" />
+    <LinkButton linkUrl="stores" />
   </div>
 </template>
 

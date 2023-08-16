@@ -6,16 +6,17 @@
     />
     <Paggination @pageChange="fetchPage" />
   </template>
-  <h1 v-else>LOADING</h1>
+  <Loader v-else />
 </template>
 
 <script>
 import { fetchGames, formatData } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
+import Loader from '../UI/Loader.vue';
 import Paggination from '../UI/Pagination.vue';
 
 export default {
-  components: { DealsTemplate, Paggination },
+  components: { DealsTemplate, Paggination, Loader },
   data() {
     return {
       allDeals: [],

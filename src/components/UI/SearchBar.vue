@@ -48,7 +48,7 @@ export default {
       return this.isLargeScreen || this.isSearchInputOpen;
     },
   },
-  emits: ['searchOpened'],
+  emits: ['searchOpened', 'searchClosed'],
   watch: {
     search: debounce(function (value) {
       this.searchQuery(value);
