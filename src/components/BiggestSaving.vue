@@ -6,14 +6,16 @@
     linkUrl="biggestSaving"
     :notFullPage="true"
   />
+  <Loader v-else />
 </template>
 
 <script>
 import DealsTemplate from './UI/DealsTemplate.vue';
 import { fetchGames, formatData } from '../Data';
+import Loader from './UI/Loader.vue';
 
 export default {
-  components: { DealsTemplate },
+  components: { DealsTemplate, Loader },
   data() {
     return {
       allDeals: {},
@@ -25,11 +27,11 @@ export default {
       this.allDeals = await fetchGames('Savings', 1, '32').then((data) =>
         data.slice(0, 8)
       );
-      formatData(this.allDeals);
+      formatData(this.allDeals).then(() => (this.fetchedData = true));
     },
   },
   created() {
-    this.getData().then(() => (this.fetchedData = true));
+    this.getData();
   },
 };
 </script>

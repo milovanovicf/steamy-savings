@@ -24,7 +24,7 @@
         <p v-if="game.savings > 0" class="discount">
           {{ Math.round(game.savings) }}%
         </p>
-        <img :src="game.imageSrc" alt="thumbnail" />
+        <img v-lazy="game.imageSrc" alt="thumbnail" />
       </div>
       <div class="element-details">
         <div class="name">
