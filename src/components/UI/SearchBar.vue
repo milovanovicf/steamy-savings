@@ -3,8 +3,8 @@
     <input
       v-if="shouldShowSearchInput"
       v-model="search"
-      type="text"
-      placeholder="Search"
+      type="search"
+      placeholder="Search..."
       class="search__input"
       @blur="clearSearch"
       @focus="searchQuery"
@@ -59,17 +59,12 @@ export default {
       if (!this.isLargeScreen) {
         this.$emit('searchOpened');
         if (this.isSearchInputOpen) {
-          if (!this.search) return;
           this.displayQuery();
-          this.$emit('searchOpened');
+        } else {
+          this.isSearchInputOpen = true;
+          this.$nextTick(() => this.$refs.searchInput.focus());
         }
-        this.isSearchInputOpen = true;
-        this.$nextTick(() => {
-          this.$refs.searchInput.focus();
-        });
-      } else {
-        if (!this.search) return;
-
+      } else if (this.search) {
         this.displayQuery();
       }
     },
@@ -81,7 +76,7 @@ export default {
         this.searchResults = [];
         this.moreThanSix = false;
         if (!this.isLargeScreen) {
-          this.$emit('searchOpened');
+          this.$emit('searchClosed');
           this.isSearchInputOpen = false;
         }
       }, 350);
@@ -116,8 +111,7 @@ export default {
           param: this.search,
         },
       });
-      console.log('goes here');
-      this.$emit('searchOpened');
+      this.clearSearch();
     },
   },
   mounted() {

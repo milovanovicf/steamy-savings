@@ -4,7 +4,10 @@
       <router-link v-if="!openedSearch" to="/" class="logo"
         ><img src="/src/assets/images/icons/logoMain.svg" alt="imglogo"
       /></router-link>
-      <SearchBar @search-opened="openedSearch = !openedSearch" />
+      <SearchBar
+        @search-opened="openedSearch = true"
+        @search-closed="openedSearch = false"
+      />
     </div>
   </nav>
 </template>
