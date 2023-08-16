@@ -2,7 +2,7 @@
   <div class="about">
     <div class="logo">
       <router-link to="/"
-        ><img src="/src/assets/images/icons/logoMain.svg" alt="logoImg"
+        ><img src="/src/assets/images/icons/logoMainPng.png" alt="logoImg"
       /></router-link>
     </div>
     <div class="info column">
@@ -66,8 +66,8 @@ export default {};
 
   .logo {
     flex: 1 1 5%;
-    width: 7rem;
-    height: 7rem;
+    width: 6.5rem;
+    height: 6.5rem;
 
     h2 {
       font-size: 2rem;
@@ -76,8 +76,8 @@ export default {};
     }
 
     img {
-      width: 100%;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 
@@ -152,6 +152,11 @@ export default {};
 @media only screen and (max-width: 1600px) {
   .about {
     padding: 5rem 2rem;
+
+    .logo {
+      width: 5.5rem;
+      height: 5.5rem;
+    }
 
     .newsletter {
       .email {

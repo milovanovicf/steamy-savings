@@ -2,7 +2,7 @@
   <nav class="nav">
     <div class="logo-container">
       <router-link v-if="!openedSearch" to="/" class="logo"
-        ><img src="/src/assets/images/icons/logoMain.svg" alt="imglogo"
+        ><img src="/src/assets/images/icons/logoMainPng.png" alt="imglogo"
       /></router-link>
       <SearchBar
         @search-opened="openedSearch = true"
@@ -41,14 +41,16 @@ export default {
     position: relative;
 
     .logo {
+      display: flex;
+      align-items: center;
       margin: 0 2rem;
       text-decoration: none;
       width: 7.5rem;
       height: 7.5rem;
 
       img {
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
       }
     }
   }
@@ -59,11 +61,6 @@ export default {
     .logo-container {
       flex: 1 1 70%;
     }
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .nav {
   }
 }
 
