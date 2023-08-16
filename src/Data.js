@@ -16,6 +16,17 @@ export async function fetchTotalPageNumber() {
     .then((data) => data.headers['x-total-page-count']);
 }
 
+export async function fetchTotalPageNumberByStore(storeID) {
+  return await axios
+    .get(
+      `https://www.cheapshark.com/api/1.0/deals?storeID=${storeID}&pageSize=32`
+    )
+    .then((data) => {
+      console.log(data.headers);
+      return data.headers['x-total-page-count'];
+    });
+}
+
 export async function fetchByStore(storeID, pageNumber, pageSize) {
   return await axios
     .get(

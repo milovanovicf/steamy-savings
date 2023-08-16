@@ -1,52 +1,60 @@
 <template>
   <div class="paggination-buttons">
     <div class="controls-left">
-      <button
+      <a
         class="page-btn start"
-        :disabled="currentPage === 1"
-        @click="gotoPage(1)"
+        :class="{ disabled: currentPage === 1 }"
+        @click.prevent="gotoPage(1)"
       >
         start
-      </button>
-      <button
+      </a>
+      <a
         class="page-btn prev"
-        :disabled="currentPage === 1"
-        @click="gotoPage(currentPage - 1)"
+        :class="{ disabled: currentPage === 1 }"
+        @click.prevent="gotoPage(currentPage - 1)"
       >
         prev
-      </button>
+      </a>
     </div>
-    <button
+    <a
       :class="{ active: page == currentPage }"
       v-for="page in pageRange"
       class="page-btn"
-      @click="gotoPage(page)"
+      @click.prevent="gotoPage(page)"
     >
       {{ page }}
-    </button>
+    </a>
     <div class="controls-right">
-      <button
+      <a
         class="page-btn next"
-        :disabled="currentPage == totalPages"
-        @click="gotoPage(currentPage + 1)"
+        :class="{ disabled: currentPage == totalPages }"
+        @click.prevent="gotoPage(currentPage + 1)"
       >
         next
-      </button>
-      <button
+      </a>
+      <a
         class="page-btn end"
-        :disabled="currentPage == totalPages"
-        @click="gotoPage(totalPages)"
+        :class="{ disabled: currentPage == totalPages }"
+        @click.prevent="gotoPage(totalPages)"
       >
         end
-      </button>
+      </a>
     </div>
   </div>
 </template>
 
 <script>
-import { fetchTotalPageNumber } from '../../Data';
+import { fetchTotalPageNumber, fetchTotalPageNumberByStore } from '../../Data';
 
 export default {
+  props: {
+    isStore: {
+      default: false,
+    },
+    storeId: {
+      default: null,
+    },
+  },
   data() {
     return {
       currentPage: 1,
@@ -76,21 +84,15 @@ export default {
       }
     },
     async getData() {
-      this.totalPages = await fetchTotalPageNumber();
-    },
-    updateScreenWidth() {
-      this.screenWidth = window.innerWidth;
-      if (this.screenWidth < 900) {
-        this.visiblePages = 5;
+      if (this.isStore) {
+        this.totalPages = await fetchTotalPageNumberByStore(this.storeId);
+      } else {
+        this.totalPages = await fetchTotalPageNumber();
       }
     },
   },
   created() {
     this.getData();
-    window.addEventListener('resize', this.updateScreenWidth());
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateScreenWidth());
   },
 };
 </script>
@@ -101,40 +103,45 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 1rem;
 
   .active {
     color: #161a26;
     background-color: #fff;
   }
 
-  button {
-    background: none;
-    appearance: none;
-    border: none;
+  a {
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #fff;
+    padding: 0.2rem;
 
-    &:not(:disabled):hover {
+    &:not(.disabled):hover {
       color: #161a26;
     }
 
-    &:disabled {
-      cursor: not-allowed;
-      color: #a9a9a9;
-    }
-
-    &:nth-child(-n + 2),
-    &:nth-last-child(-n + 2) {
+    &:nth-child(-n + 1),
+    &:nth-last-child(-n + 1) {
       font-weight: 800;
     }
+  }
+
+  .disabled {
+    cursor: not-allowed;
+    color: #a9a9a9;
+    pointer-events: none;
   }
 }
 
 @media only screen and (max-width: 1400px) {
   .paggination-buttons {
     position: relative;
+    gap: 10px;
+
+    a {
+      font-size: 1.7em;
+      margin-bottom: 0.5rem;
+    }
 
     .controls-left,
     .controls-right {
