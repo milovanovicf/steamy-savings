@@ -12,9 +12,9 @@
     </div>
     <div class="games column">
       <h2>Deals</h2>
-      <a href="#">By Reviews</a>
-      <a href="#">By Price</a>
-      <a href="#">Latest</a>
+      <router-link :to="`/deals/Reviews`">By Reviews</router-link>
+      <router-link :to="`/deals/Price`">By Price</router-link>
+      <router-link :to="`/deals/Title`">By Title</router-link>
     </div>
     <div class="newsletter column">
       <h2>Subscibe to our newsletter</h2>
@@ -29,8 +29,8 @@
         >
       </div>
       <div class="email">
-        <input type="text" placeholder="Enter your emails address" />
-        <a href="#">Subscribe</a>
+        <input type="email" disabled placeholder="Enter your emails address" />
+        <a href="#" disabled>Subscribe</a>
       </div>
     </div>
   </div>
@@ -131,6 +131,10 @@ export default {};
         &::placeholder {
           color: #9aa4bf;
         }
+
+        &:disabled {
+          cursor: not-allowed;
+        }
       }
       a {
         text-decoration: none;
@@ -141,8 +145,13 @@ export default {};
         transition: all 200ms ease-in-out;
         font-size: 1rem;
 
-        &:hover {
-          background-color: #9aa4bf;
+        // &:hover {
+        //   background-color: #9aa4bf;
+        // }
+
+        &:disabled {
+          cursor: not-allowed;
+          background-color: red;
         }
       }
     }
