@@ -137,42 +137,42 @@ export const bannersMobile = [
   {
     id: 1,
     url: new URL(
-      `/src/assets/images/banner/banner1mobile.jpg`,
+      `/src/assets/images/banner/banner1mobile.avif`,
       import.meta.url
     ),
   },
   {
     id: 2,
     url: new URL(
-      `/src/assets/images/banner/banner2mobile.jpg`,
+      `/src/assets/images/banner/banner2mobile.avif`,
       import.meta.url
     ),
   },
   {
     id: 3,
     url: new URL(
-      `/src/assets/images/banner/banner3mobile.jpg`,
+      `/src/assets/images/banner/banner3mobile.avif`,
       import.meta.url
     ),
   },
   {
     id: 4,
     url: new URL(
-      `/src/assets/images/banner/banner4mobile.jpg`,
+      `/src/assets/images/banner/banner4mobile.avif`,
       import.meta.url
     ),
   },
   {
     id: 5,
     url: new URL(
-      `/src/assets/images/banner/banner5mobile.jpg`,
+      `/src/assets/images/banner/banner5mobile.avif`,
       import.meta.url
     ),
   },
   {
     id: 6,
     url: new URL(
-      `/src/assets/images/banner/banner6mobile.jpg`,
+      `/src/assets/images/banner/banner6mobile.avif`,
       import.meta.url
     ),
   },

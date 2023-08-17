@@ -159,7 +159,7 @@ export default {
 
     .btn {
       text-align: center;
-      margin: 0;
+      margin: 3rem;
 
       a {
         color: #fff;
