@@ -13,7 +13,13 @@
     />
     <ul class="search__results">
       <li v-for="result in searchResults">
-        <a href="">{{ result.external }}</a>
+        <a
+          :href="
+            'https://cheapshark.com/redirect?dealID=' + result.cheapestDealID
+          "
+          target="_blank"
+          >{{ result.external }}</a
+        >
       </li>
 
       <a v-if="moreThanSix" href="#" @click="displayQuery" class="view-all"
