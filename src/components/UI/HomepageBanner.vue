@@ -1,196 +1,259 @@
 <template>
-  <div class="latest-deal">
-    <div class="banner-container">
-      <router-link
-        to="/deals/Recent"
-        class="banner"
-        v-for="banner in !isMobile ? banners : bannersMobile"
-        :key="banner.id"
-        :class="{ active: currentBanner === banner.id }"
-      >
-        <img :src="banner.url" alt="slide" />
-      </router-link>
-    </div>
-    <img
-      src="../../assets/images/banner/angle-left-svgrepo-com.svg"
-      class="controls left"
-      @click="slideChange"
-    />
-    <img
-      src="../../assets/images/banner/angle-right-svgrepo-com.svg"
-      class="controls right"
-      @click="slideChange"
-    />
-    <div class="btn">
-      <router-link to="/deals/Recent">View all latest deals</router-link>
+  <div>
+    <HomepageEmptyBanner v-if="loading" />
+    <div class="banner-holder" v-else>
+      <h2 class="title">
+        <router-link to="deals/Featured/1">featured</router-link>
+        <img
+          src="../../assets/images/icons/arrow-right-336-svgrepo-com.svg"
+          alt=""
+        />
+      </h2>
+      <div class="banner">
+        <a class="main-img" :href="gameLink(firstGame)" target="_blank">
+          <img v-lazy="firstGame.imageSrc" alt="thumbnail" />
+          <div class="price">
+            <h2>{{ firstGame.title }}</h2>
+            <div class="amount">
+              <p class="amount__old">${{ firstGame.normalPrice }}</p>
+              <p class="amount__new">{{ firstGame.salePrice }}</p>
+            </div>
+            <div class="purchase-now">
+              <p>PURCHASE NOW</p>
+            </div>
+          </div>
+        </a>
+        <div class="small-images">
+          <a
+            class="small-image"
+            v-for="game in restOfGames"
+            :href="gameLink(game)"
+            target="_blank"
+          >
+            <img v-lazy="game.imageSrc" alt="thumbnail" />
+            <p>{{ game.title }}</p>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { banners, bannersMobile } from '../../Data';
+import { fetchGames } from '../../Data';
+import HomepageEmptyBanner from './HomepageEmptyBanner.vue';
 
 export default {
+  components: { HomepageEmptyBanner },
+
   data() {
     return {
-      banners: banners,
-      bannersMobile: bannersMobile,
-      currentBanner: 1,
-      screenWidth: window.innerWidth,
-      isMobile: window.innerWidth < 900,
+      firstGame: {},
+      restOfGames: [],
+      loading: true,
     };
   },
   methods: {
-    slideChange(btn) {
-      const button = btn.target.className;
-      if (button.includes('left')) {
-        this.currentBanner++;
-        if (this.currentBanner > this.banners.length) this.currentBanner = 1;
-      } else if (button.includes('right')) {
-        this.currentBanner--;
-        if (this.currentBanner < 1) this.currentBanner = this.banners.length;
-      }
-    },
-    automaticSlideChange() {
-      setInterval(() => {
-        this.currentBanner += 1;
-        if (this.currentBanner > this.banners.length) this.currentBanner = 1;
-      }, 8000);
+    gameLink(game) {
+      return `https://cheapshark.com/redirect?dealID=${
+        game.dealID || game.cheapestDealID
+      }`;
     },
   },
-  mounted() {
-    this.automaticSlideChange();
+  async created() {
+    this.loading = true;
+    try {
+      const games = await fetchGames('Recent', 1, 15);
+      const filteredGames = games.filter((game) => game.steamAppID);
+      this.firstGame = filteredGames[0];
+      this.restOfGames = filteredGames.slice(1, 4);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      this.loading = false;
+    }
   },
 };
 </script>
 
 <style scoped lang="scss">
-.latest-deal {
-  position: relative;
-  margin: 5rem 0;
-  text-align: center;
+.banner-holder {
+  margin: 5rem 0 10rem 0;
 
-  .banner-container {
-    position: relative;
-    height: 25rem;
+  .title {
+    text-transform: uppercase;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    width: max-content;
     display: flex;
-    justify-content: center;
     align-items: center;
 
-    a {
-      display: block;
+    img {
+      width: 1rem;
+      height: 1rem;
+      margin-left: 1rem;
+      transition: 200ms all;
     }
-    .banner {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 400ms ease-in-out;
 
-      &.active {
-        transform: scale(1);
-        opacity: 1;
-      }
+    &:hover img {
+      transform: translateX(0.5rem);
+    }
+
+    &:hover a {
+      color: #c9c9c9;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      transition: all 200ms;
+    }
+  }
+
+  .banner {
+    display: flex;
+    justify-content: space-between;
+
+    .main-img {
+      position: relative;
+      background-color: #131313;
+      width: 75%;
+      cursor: pointer;
+      color: #fff;
+      transition: all 200ms;
+      border-radius: 10px;
+      overflow: hidden;
 
       img {
-        max-width: 100%;
-        max-height: 100%;
+        opacity: 0.6;
+        width: 100%;
+        height: 100%;
+        transition: all 200ms;
         object-fit: cover;
       }
-    }
-  }
 
-  .controls {
-    position: absolute;
-    cursor: pointer;
-    width: 3rem;
-    height: 3rem;
-  }
+      .price {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 3rem;
 
-  .left {
-    left: 0;
-    top: 35%;
-  }
+        .amount {
+          display: flex;
+          align-items: center;
+          margin: 0.5rem 0;
 
-  .right {
-    right: 0;
-    top: 35%;
-  }
+          &__old {
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+            font-size: 1rem;
+            color: #c9c9c9;
+            font-size: 1.3rem;
+          }
 
-  .btn {
-    text-align: center;
-    margin: 3rem 0 0 0;
+          &__new {
+            font-size: 1.7rem;
+          }
+        }
 
-    a {
-      text-decoration: none;
-      color: #fff;
-      border: 1px solid #9aa4bf;
-      padding: 1rem 2rem;
-      transition: all 200ms ease-in-out;
+        .purchase-now {
+          margin-top: 0.5rem;
+          display: flex;
 
-      &:hover {
-        background-color: #9aa4bf;
+          p {
+            margin-right: 0.5rem;
+            background-color: #fff;
+            padding: 1.1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: #000;
+          }
+
+          .store-logo {
+            width: 3rem;
+            height: 3rem;
+
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
       }
     }
-  }
-}
-@media only screen and (max-width: 1200px) {
-  .latest-deal {
-    .banner-container {
-      height: 15rem;
-    }
-  }
-}
 
-@media only screen and (max-width: 750px) {
-  .latest-deal {
-    margin: 3rem 0;
+    .small-images {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 20%;
 
-    h2 {
-      font-size: 1.3rem;
-    }
-    .banner-container {
-      height: 20rem;
-      margin: 0 1rem;
-    }
-
-    .btn {
-      text-align: center;
-      margin: 3rem;
-
-      a {
+      .small-image {
+        background-color: #3b3b3b;
+        width: 100%;
+        height: 30%;
+        position: relative;
         color: #fff;
-        border: 1px solid #9aa4bf;
-        padding: 1rem 2rem;
+        transition: all 200ms;
+        border-radius: 10px;
+        overflow: hidden;
+
+        &:hover {
+          background-color: #555555;
+        }
+
+        &:hover img {
+          opacity: 0.7;
+        }
+
+        p {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          margin: 1rem;
+          font-size: 1.3rem;
+        }
+
+        img {
+          opacity: 0.8;
+          width: 100%;
+          height: 100%;
+          transition: all 200ms;
+          object-fit: cover;
+        }
       }
-    }
-
-    .controls {
-      position: absolute;
-      cursor: pointer;
-      width: 2.5rem;
-      height: 2.5rem;
-    }
-
-    .left {
-      top: 25%;
-    }
-
-    .right {
-      top: 25%;
     }
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .latest-deal {
-    .banner-container {
-      height: 13rem;
+@media only screen and (max-width: 1024px) {
+  .banner-holder {
+    .banner {
+      .main-img {
+        width: 70%;
+      }
 
-      margin: 0;
+      .small-images {
+        width: 25%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .banner-holder {
+    .banner {
+      flex-direction: column;
+      gap: 1rem;
+
+      .main-img {
+        width: 100%;
+      }
+
+      .small-images {
+        width: 100%;
+        flex-direction: row;
+        gap: 1rem;
+      }
     }
   }
 }

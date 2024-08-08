@@ -1,5 +1,5 @@
 <template>
-  <div class="deals" :class="{ whenFullPage: !notFullPage }">
+  <div class="deals">
     <div class="title">
       <h2>{{ title }}</h2>
       <img
@@ -27,7 +27,6 @@
       </button>
     </div>
     <div class="deals__main">
-      <Sorting v-if="!notFullPage && !isStore && !isMobile" />
       <div v-if="dealsOpened" class="display-container">
         <Grid v-if="view === 'square'" :games="data" :isStore="isStore" />
         <Flex v-if="view === 'line'" :games="data" :isStore="isStore" />
@@ -39,10 +38,9 @@
 <script>
 import Grid from './Grid.vue';
 import Flex from './Flex.vue';
-import Sorting from './Sorting.vue';
 
 export default {
-  components: { Grid, Flex, Sorting },
+  components: { Grid, Flex },
   props: ['title', 'data', 'isStore', 'linkUrl', 'notFullPage'],
   data() {
     return {
@@ -73,9 +71,8 @@ export default {
 
 <style scoped lang="scss">
 .deals {
-  width: 70%;
-  margin: 5rem auto;
   position: relative;
+  margin: 5rem 15rem;
 
   .title {
     display: flex;
@@ -142,23 +139,9 @@ export default {
   }
 }
 
-.whenFullPage {
-  width: 80%;
-}
-
-@media only screen and (max-width: 1600px) {
+@media only screen and (max-width: 1400px) {
   .deals {
-    width: 75%;
-  }
-
-  .whenFullPage {
-    width: 85%;
-  }
-}
-
-@media only screen and (max-width: 700px) {
-  .deals {
-    width: 90%;
+    margin: 5rem 10rem;
   }
 }
 </style>

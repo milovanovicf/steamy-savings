@@ -1,33 +1,39 @@
 <template>
-  <DealsTemplate
-    v-if="fetchedData"
-    :title="'Biggest Saving'"
-    :data="allDeals"
-    linkUrl="biggestSaving"
-    :notFullPage="true"
-  />
-  <Loader v-else />
+  <div>
+    <ListEmptyTemplate v-if="loading" />
+    <List
+      v-else
+      :title="'Biggest Saving'"
+      :games="allDeals"
+      linkUrl="deals/Savings/1"
+      :notFullPage="true"
+    />
+  </div>
 </template>
 
 <script>
-import DealsTemplate from './UI/DealsTemplate.vue';
-import { fetchGames, formatData } from '../Data';
-import Loader from './UI/Loader.vue';
+import List from './UI/List.vue';
+import { fetchGames } from '../Data';
+import ListEmptyTemplate from './UI/ListEmptyTemplate.vue';
 
 export default {
-  components: { DealsTemplate, Loader },
+  components: { List, ListEmptyTemplate },
   data() {
     return {
-      allDeals: {},
-      fetchedData: false,
+      allDeals: [],
+      loading: true,
     };
   },
   methods: {
     async getData() {
-      this.allDeals = await fetchGames('Savings', 1, '32').then((data) =>
-        data.slice(0, 8)
-      );
-      formatData(this.allDeals).then(() => (this.fetchedData = true));
+      this.loading = true;
+      try {
+        this.allDeals = await fetchGames('Savings', 1, '32');
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        this.loading = false;
+      }
     },
   },
   created() {

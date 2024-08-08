@@ -8,6 +8,18 @@
 import { RouterView } from 'vue-router';
 import Navbar from './components/UI/Navbar.vue';
 import About from './components/About.vue';
+
+document.addEventListener('DOMContentLoaded', function (event) {
+  const scrollpos = sessionStorage.getItem('scrollpos');
+  if (scrollpos) {
+    window.scrollTo(0, scrollpos);
+    sessionStorage.removeItem('scrollpos');
+  }
+});
+
+window.addEventListener('beforeunload', function (e) {
+  sessionStorage.setItem('scrollpos', window.scrollY);
+});
 </script>
 
 <style>
@@ -100,8 +112,6 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  /* font-size: 100%; */
-  font: inherit;
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -142,7 +152,6 @@ table {
 }
 
 * {
-  font-size: 16px;
   font-family: 'SupermolotNeue', sans-serif;
 }
 
@@ -151,9 +160,9 @@ body {
   color: #fff;
   overflow-x: hidden;
   --s: 200px; /* control the size */
-  --c1: #273047;
-  --c2: #161a26;
-  --c3: #292940;
+  --c1: #1b2131;
+  --c2: #12141a;
+  --c3: #1d1d25;
 
   background: repeating-conic-gradient(
         from 30deg,

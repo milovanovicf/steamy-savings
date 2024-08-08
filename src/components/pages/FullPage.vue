@@ -1,48 +1,59 @@
 <template>
-  <template v-if="fetchedData">
-    <DealsTemplate
-      :title="`Deals sorted by ${$route.params.dealType}`"
-      :data="allDeals"
-    />
-    <Paggination @pageChange="fetchPage" />
-  </template>
-  <Loader v-else />
+  <div>
+    <DealsEmptyTemplate v-if="loading" />
+    <div v-else>
+      <DealsTemplate
+        :title="`Deals sorted by ${$route.params.dealType}`"
+        :data="allDeals"
+      />
+      <Paggination @pageChange="fetchPage" />
+    </div>
+  </div>
 </template>
 
 <script>
-import { fetchGames, formatData } from '../../Data';
+import { fetchGames } from '../../Data';
+import DealsEmptyTemplate from '../UI/DealsEmptyTemplate.vue';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import Loader from '../UI/Loader.vue';
 import Paggination from '../UI/Pagination.vue';
 
 export default {
-  components: { DealsTemplate, Paggination, Loader },
+  components: { DealsTemplate, Paggination, DealsEmptyTemplate },
   data() {
     return {
       allDeals: [],
-      fetchedData: false,
-      currentPage: 1,
+      loading: true,
     };
   },
   watch: {
-    '$route.params.dealType'(dealType, _) {
-      this.getData(dealType).then(() => (this.fetchedData = true));
+    '$route.params.dealType'() {
+      this.getData();
+    },
+    '$route.params.pageNumber'() {
+      this.getData();
     },
   },
   methods: {
-    async getData(sortOption = '') {
-      this.allDeals = await fetchGames(sortOption, this.currentPage, '32');
-      formatData(this.allDeals);
+    async getData() {
+      this.loading = true;
+      try {
+        this.allDeals = await fetchGames(
+          this.$route.params.dealType,
+          this.$route.params.pageNumber,
+          '30'
+        );
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        this.loading = false;
+      }
     },
     fetchPage(page) {
-      this.currentPage = page;
-      this.getData().then(() => (this.fetchedData = true));
+      this.$router.push(`/deals/${this.$route.params.dealType}/${page}`);
     },
   },
-  async created() {
-    this.getData(this.$route.params.dealType).then(
-      () => (this.fetchedData = true)
-    );
+  created() {
+    this.getData();
   },
 };
 </script>

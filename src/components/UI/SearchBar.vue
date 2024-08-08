@@ -1,7 +1,6 @@
 <template>
   <div class="search">
     <input
-      v-if="shouldShowSearchInput"
       v-model="search"
       type="search"
       placeholder="Search..."
@@ -27,16 +26,10 @@
       >
     </ul>
   </div>
-  <img
-    class="search-icon"
-    src="../../assets/images/icons/search-svgrepo-com.svg"
-    alt="searchBtn"
-    @click="toggleSearchInput"
-  />
 </template>
 
 <script>
-import { getData } from '../../Data';
+import { searchGame } from '../../Data';
 import { debounce } from 'lodash';
 
 export default {
@@ -45,14 +38,7 @@ export default {
       search: '',
       searchResults: [],
       moreThanSix: false,
-      isSearchInputOpen: false,
-      isLargeScreen: window.innerWidth >= 768,
     };
-  },
-  computed: {
-    shouldShowSearchInput() {
-      return this.isLargeScreen || this.isSearchInputOpen;
-    },
   },
   emits: ['searchOpened', 'searchClosed'],
   watch: {
@@ -61,30 +47,13 @@ export default {
     }, 500),
   },
   methods: {
-    toggleSearchInput() {
-      if (!this.isLargeScreen) {
-        this.$emit('searchOpened');
-        if (this.isSearchInputOpen) {
-          this.displayQuery();
-        } else {
-          this.isSearchInputOpen = true;
-          this.$nextTick(() => this.$refs.searchInput.focus());
-        }
-      } else if (this.search) {
-        this.displayQuery();
-      }
-    },
     updateScreenSize() {
-      this.isLargeScreen = window.innerWidth >= 768; // You can adjust this breakpoint
+      this.isLargeScreen = window.innerWidth >= 768;
     },
     clearSearch() {
       setTimeout(() => {
         this.searchResults = [];
         this.moreThanSix = false;
-        if (!this.isLargeScreen) {
-          this.$emit('searchClosed');
-          this.isSearchInputOpen = false;
-        }
       }, 350);
     },
     async searchQuery(value) {
@@ -93,7 +62,7 @@ export default {
         return;
       }
       if (searchValue.length >= 3) {
-        const response = await getData(this.search);
+        const response = await searchGame(this.search, 7);
         this.searchResults = response.filter((result) => {
           return result.external
             .toLowerCase()
@@ -120,12 +89,6 @@ export default {
       this.clearSearch();
     },
   },
-  mounted() {
-    window.addEventListener('resize', this.updateScreenSize);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateScreenSize);
-  },
 };
 </script>
 
@@ -140,12 +103,19 @@ export default {
     outline: 0;
     width: 20rem;
     padding: 0.5rem 0 0.5rem 1rem;
-    border-bottom: 1px solid #959595;
     transition: all 150ms ease-in;
+    background-color: #283249;
+    caret-color: #fff;
+    border-radius: 15px;
 
     &::placeholder {
-      color: #7c7c7c;
+      color: #fff;
       transition: all 150ms ease-in;
+    }
+
+    &:focus {
+      background-color: #34405e;
+      color: #fff;
     }
   }
 
@@ -189,27 +159,6 @@ export default {
       align-items: center;
     }
   }
-}
-
-.search-icon {
-  width: 2rem;
-  height: 2rem;
-  filter: invert(100%) sepia(0%) saturate(5809%) hue-rotate(71deg)
-    brightness(106%) contrast(90%);
-  margin-left: 0.7rem;
-
-  &:hover {
-    cursor: pointer;
-    filter: invert(68%) sepia(18%) saturate(370%) hue-rotate(186deg)
-      brightness(94%) contrast(88%);
-  }
-}
-
-.icon-mobile {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translate(25%, -50%);
 }
 
 @media only screen and (max-width: 750px) {

@@ -1,12 +1,12 @@
 <template>
   <div class="btn">
-    <router-link :to="`/${linkUrl}`">View more</router-link>
+    <router-link :to="`/${linkUrl}`">{{ linkName }}</router-link>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['linkUrl'],
+  props: { linkUrl: { default: '' }, linkName: { default: 'View More' } },
 };
 </script>
 

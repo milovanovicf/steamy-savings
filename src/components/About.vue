@@ -8,13 +8,13 @@
     <div class="info column">
       <h2>Information</h2>
       <router-link to="/about">About Us</router-link>
-      <router-link :to="`/stores`">Stores</router-link>
+      <router-link to="/stores">Stores</router-link>
     </div>
     <div class="games column">
       <h2>Deals</h2>
-      <router-link :to="`/deals/Reviews`">By Reviews</router-link>
-      <router-link :to="`/deals/Price`">By Price</router-link>
-      <router-link :to="`/deals/Title`">By Title</router-link>
+      <router-link to="/deals/Reviews/1">By Reviews</router-link>
+      <router-link to="/deals/Price/1">By Price</router-link>
+      <router-link to="/deals/Title/1">By Title</router-link>
     </div>
     <div class="newsletter column">
       <h2>Subscibe to our newsletter</h2>

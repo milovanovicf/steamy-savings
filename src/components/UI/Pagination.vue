@@ -3,14 +3,14 @@
     <div class="controls-left">
       <a
         class="page-btn start"
-        :class="{ disabled: currentPage === 1 }"
+        :class="{ disabled: currentPage == 1 }"
         @click.prevent="gotoPage(1)"
       >
         start
       </a>
       <a
         class="page-btn prev"
-        :class="{ disabled: currentPage === 1 }"
+        :class="{ disabled: currentPage == 1 }"
         @click.prevent="gotoPage(currentPage - 1)"
       >
         prev
@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
+      currentPage: this.$route.params.pageNumber,
       totalPages: 0,
       visiblePages: 10,
     };
@@ -83,16 +83,15 @@ export default {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    async getData() {
-      if (this.isStore) {
-        this.totalPages = await fetchTotalPageNumberByStore(this.storeId);
-      } else {
-        this.totalPages = await fetchTotalPageNumber();
-      }
-    },
   },
   created() {
-    this.getData();
+    if (this.isStore) {
+      fetchTotalPageNumberByStore(this.storeId).then((pages) => {
+        this.totalPages = pages;
+      });
+    } else {
+      fetchTotalPageNumber().then((pages) => (this.totalPages = pages));
+    }
   },
 };
 </script>
@@ -136,7 +135,6 @@ export default {
 @media only screen and (max-width: 1400px) {
   .paggination-buttons {
     position: relative;
-    gap: 10px;
 
     a {
       font-size: 1.7em;
@@ -150,10 +148,10 @@ export default {
     }
 
     .controls-left {
-      left: 10%;
+      left: 30%;
     }
     .controls-right {
-      right: 10%;
+      right: 30%;
     }
   }
 }

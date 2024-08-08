@@ -5,11 +5,8 @@
     </h2>
     <HomepageBanner />
     <BiggestSaving />
-    <LinkButton linkUrl="deals/Savings" />
     <LatestReleses />
-    <LinkButton linkUrl="deals/Release" />
     <Stores />
-    <LinkButton linkUrl="stores" />
   </div>
 </template>
 
@@ -19,6 +16,7 @@ import BiggestSaving from '../BiggestSaving.vue';
 import Stores from '../Stores.vue';
 import LatestReleses from '../LatestReleses.vue';
 import LinkButton from '../UI/LinkButton.vue';
+import List from '../UI/List.vue';
 
 export default {
   components: {
@@ -27,12 +25,15 @@ export default {
     HomepageBanner,
     LatestReleses,
     LinkButton,
+    List,
   },
 };
 </script>
 
 <style scoped lang="scss">
 .featuring {
+  margin: 0 15rem;
+
   h2 {
     text-align: center;
     font-size: 1.5rem;
@@ -40,12 +41,37 @@ export default {
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1600px) {
   .featuring {
+    margin: 0 10rem;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .featuring {
+    margin: 0 5rem;
+
     h2 {
       font-size: 1.3rem;
       margin: 3rem 3rem 2rem 3rem;
     }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .featuring {
+    margin: 0 2rem;
+
+    h2 {
+      font-size: 1.3rem;
+      margin: 3rem 3rem 2rem 3rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .featuring {
+    margin: 0 0.5rem;
   }
 }
 </style>

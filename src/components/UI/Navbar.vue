@@ -4,11 +4,11 @@
       <router-link v-if="!openedSearch" to="/" class="logo"
         ><img src="/src/assets/images/icons/logoMainPng.png" alt="imglogo"
       /></router-link>
-      <SearchBar
-        @search-opened="openedSearch = true"
-        @search-closed="openedSearch = false"
-      />
     </div>
+    <SearchBar
+      @search-opened="openedSearch = true"
+      @search-closed="openedSearch = false"
+    />
   </nav>
 </template>
 
@@ -30,10 +30,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  height: 4rem;
+  height: 5rem;
   padding: 0.5rem 2rem;
   background-color: #161a26;
+
   .logo-container {
     display: flex;
     align-items: center;
@@ -56,19 +56,27 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1400px) {
-  .nav {
-    .logo-container {
-      flex: 1 1 70%;
-    }
-  }
-}
-
 @media only screen and (max-width: 750px) {
   .nav {
     .logo-container {
       .logo {
         margin: 0 1rem 0 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .nav {
+    flex-direction: column;
+    padding-top: 0;
+    height: auto;
+
+    .logo-container {
+      .logo {
+        width: 7rem;
+        height: 5rem;
+        margin: 0;
       }
     }
   }

@@ -1,32 +1,40 @@
 <template>
-  <template v-if="fetchedData">
-    <DealsTemplate :title="`Deals from ${store}`" :data="dealsByStore" />
-    <Pagination
-      @pageChange="fetchPage"
-      :isStore="true"
-      :storeId="$route.fullPath.slice(8)"
-    />
-  </template>
-  <Loader v-else />
+  <div>
+    <DealsEmptyTemplate v-if="loading" />
+    <div v-else>
+      <DealsTemplate
+        :title="`Deals from ${store.storeName}`"
+        :data="dealsByStore"
+      />
+      <Pagination
+        @pageChange="fetchPage"
+        :isStore="true"
+        :storeId="this.$route.params.storeId"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import { fetchByStore, findStore, formatData } from '../../Data';
+import { fetchByStore, findStore } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import Loader from '../UI/Loader.vue';
+import DealsEmptyTemplate from '../UI/DealsEmptyTemplate.vue';
 import Pagination from '../UI/Pagination.vue';
 
 export default {
-  components: { Pagination, DealsTemplate, Loader },
+  components: { Pagination, DealsTemplate, DealsEmptyTemplate },
   data() {
     return {
-      dealsByStore: {},
+      dealsByStore: [],
       store: '',
-      currentPage: 1,
-      fetchedData: false,
+      loading: true,
     };
   },
-
+  watch: {
+    '$route.params.pageNumber'() {
+      this.getData();
+    },
+  },
   methods: {
     async getData() {
       this.dealsByStore = await fetchByStore(
@@ -37,17 +45,14 @@ export default {
       this.store = await findStore(this.$route.fullPath.slice(8)).then(
         (data) => data[0].storeName
       );
-
-      formatData(this.dealsByStore).then(() => (this.fetchedData = true));
     },
     fetchPage(page) {
-      this.currentPage = page;
-      this.getData();
+      this.$router.push(`/stores/${this.$route.params.storeId}/${page}`);
     },
   },
 
-  mounted() {
-    this.getData().then(() => (this.fetchedData = true));
+  created() {
+    this.getData();
   },
 };
 </script>

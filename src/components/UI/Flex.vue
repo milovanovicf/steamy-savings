@@ -8,13 +8,13 @@
       v-for="game in games"
       class="list__element"
       target="_blank"
-      :title="game.title || game.external"
+      :title="game.formatedTitle"
     >
       <div class="game-info">
         <div class="img-container">
           <img v-lazy="game.imageSrc" alt="thumbnail" />
         </div>
-        <p class="title">{{ game.title || game.external }}</p>
+        <p class="title">{{ game.formatedTitle }}</p>
       </div>
       <div class="price">
         <div v-if="game.title" class="store-logo-container">

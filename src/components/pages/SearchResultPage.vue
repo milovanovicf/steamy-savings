@@ -1,36 +1,53 @@
 <template>
-  <DealsTemplate
-    v-if="searchResult"
-    :title="'Search resuts for ' + `&quot;${this.$route.params.param}&quot;`"
-    :data="searchResult"
-  />
-  <Loader v-else />
+  <div>
+    <DealsEmptyTemplate v-if="loading" />
+    <div v-else>
+      <DealsTemplate
+        :title="
+          'Search resuts for ' + `&quot;${this.$route.params.param}&quot;`
+        "
+        :data="searchResult"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import { getData, formatData } from '../../Data';
+import { searchGame } from '../../Data';
 import DealsTemplate from '../UI/DealsTemplate.vue';
-import Loader from '../UI/Loader.vue';
+import DealsEmptyTemplate from '../UI/DealsEmptyTemplate.vue';
 
 export default {
-  components: { DealsTemplate, Loader },
+  components: { DealsTemplate, DealsEmptyTemplate },
 
   data() {
     return {
       searchResult: [],
-      fetchedData: false,
+      loading: true,
     };
   },
 
   async mounted() {
-    this.searchResult = await getData(this.$route.params.param);
-    formatData(this.searchResult).then(() => (this.fetchedData = true));
+    this.loading = true;
+    try {
+      this.searchResult = await searchGame(this.$route.params.param);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      this.loading = false;
+    }
   },
   watch: {
     '$route.params': {
       async handler(newParams, oldParams) {
-        this.searchResult = await getData(newParams.param);
-        formatData(this.searchResult);
+        this.loading = true;
+        try {
+          this.searchResult = await searchGame(newParams.param);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          this.loading = false;
+        }
       },
     },
   },

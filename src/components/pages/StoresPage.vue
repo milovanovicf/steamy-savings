@@ -1,6 +1,5 @@
 <template>
   <DealsTemplate
-    v-if="fetchedData"
     :title="'Browse deals by stores'"
     :data="allStores"
     :isStore="true"
@@ -17,16 +16,10 @@ export default {
   data() {
     return {
       allStores: [],
-      fetchedData: false,
     };
   },
-  methods: {
-    async getData() {
-      this.allStores = await fetchStores();
-    },
-  },
   created() {
-    this.getData().then(() => (this.fetchedData = true));
+    fetchStores().then((stores) => (this.allStores = stores));
   },
 };
 </script>
