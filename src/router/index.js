@@ -15,12 +15,12 @@ const router = createRouter({
       component: Homepage,
     },
     {
-      path: '/deals/:dealType',
+      path: '/deals/:dealType/:pageNumber',
       name: 'FullPage',
       component: FullPage,
     },
     {
-      path: '/stores/:storeId',
+      path: '/stores/:storeId/:pageNumber',
       name: 'storeDeals',
       component: DealsByStorePage,
     },
